@@ -8,6 +8,7 @@ const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
 const getAllPost = catchAsync(async (req, res, next) => {
+  console.log(123)
   const data = await Post.find()
   successHandle({ res, data })
 })
