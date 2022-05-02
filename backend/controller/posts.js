@@ -1,4 +1,5 @@
-const { Post } = require('../model/posts')
+const Post = require('../model/posts')
+const User = require('../model/user')
 const {
   successHandle,
   errorHandle,
@@ -7,9 +8,31 @@ const ApiState = require('../utils/apiState')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 
+/*
+  "_id": "6270124640850c16bd444af3",
+  "user": {
+      "_id": "627011d72b9eee3731a2972c",
+      "name": "Hazel",
+      "avatar": "http://placeimg.com/640/480"
+  },
+  "content": "今天要喝Aaron Turner牌的咖啡",
+  "image": "http://placeimg.com/640/480",
+  "likes": 0
+*/
 const getAllPost = catchAsync(async (req, res, next) => {
-  console.log(123)
-  const data = await Post.find()
+  // 貼文建立時間排序，ASC 正序遞增
+  const timeSort = req.query.sort === 'asc' ? 'createdAt' : '-createdAt'
+  const q = req.query.q !== undefined
+    ? { "content": new RegExp(req.query.q) }
+    : {}
+
+  const data = await Post
+    .find(q)
+    .populate({
+      path: 'user',
+      select: 'name avatar'
+    })
+    .sort(timeSort)
   successHandle({ res, data })
 })
 
@@ -19,6 +42,8 @@ const createPost = catchAsync(async (req, res, next) => {
   if (!content || !name) return next(new AppError(ApiState.FIELD_MISSING))
 
   const data = await Post.create({
+    // TODO: 改為動態 user id
+    user: '627011d72b9eee3731a2972c',
     content,
     image,
     name,

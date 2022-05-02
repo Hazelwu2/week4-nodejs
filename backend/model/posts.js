@@ -1,6 +1,12 @@
 const { Schema, model } = require('mongoose')
 
 const postSchema = new Schema({
+
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+
   // 內容
   content: {
     type: String,
@@ -17,20 +23,15 @@ const postSchema = new Schema({
     default: new Date().getTime(),
     select: false
   },
-  // 貼文名稱
-  name: {
-    type: String,
-    required: [true, '貼文姓名未填寫']
-  },
+
   // 按讚數
   likes: {
     type: Number,
     default: 0
-  }
+  },
+
 }, { versionKey: false })
 
 const Post = model('Post', postSchema)
 
-module.exports = {
-  Post
-}
+module.exports = Post
