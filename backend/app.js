@@ -4,6 +4,7 @@ const app = express()
 const { errorHandle } = require('./utils/resHandle')
 const ApiState = require('./utils/apiState')
 const cors = require('cors')
+const corsOptions = require('./utils/cors')
 // Router
 const postRouter = require('./routes/post')
 const indexRouter = require('./routes/index')
@@ -12,12 +13,12 @@ const globalErrorHandler = require('./controller/global-error')
 const AppError = require('./utils/appError')
 
 app.use(morgan('dev'))
+app.use(cors(corsOptions))
 app.use(express.json())
-app.use(cors())
 
 // Router
-app.use('/', indexRouter)
-app.use('/posts', postRouter)
+app.use('/api', indexRouter)
+app.use('/api/posts', postRouter)
 
 // 無此路由
 app.use('*', (req, res, next) => {

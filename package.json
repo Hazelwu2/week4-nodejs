@@ -1,25 +1,20 @@
 {
-  "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "dev": "NODE_ENV=development nodemon server.js"
-  },
-  "name": "posts-mongoose-week2",
+  "name": "week4-nodejs",
   "version": "1.0.0",
-  "main": "app.js",
-  "devDependencies": {
-    "nodemon": "^2.0.15"
+  "description": "<div align=\"center\">   <a href=\"https://github.com/Hazelwu2/week4-nodejs.git\">     <img src=\"./logo.png\" alt=\"Logo\" width=\"80\" height=\"80\">   </a>",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node backend/server.js",
+    "dev": "NODE_ENV=development nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hazelwu2/week4-nodejs.git"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "mongoose": "^6.3.0",
-    "morgan": "^1.10.0"
+  "bugs": {
+    "url": "https://github.com/Hazelwu2/week4-nodejs/issues"
   },
-  "engines": {
-    "node": "16.x"
-  }
+  "homepage": "https://github.com/Hazelwu2/week4-nodejs#readme"
 }
