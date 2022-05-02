@@ -8,7 +8,7 @@ const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
-    error: err,
+    error: err.customError || err,
   })
 
 }
@@ -17,7 +17,32 @@ const sendErrorProd = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
     message: err.message,
+    error: err.customError,
   })
+}
+
+// DB 欄位驗證
+const handleValidationErrorDB = (err) => {
+  if (err && Object.keys(err.errors).length > 0) {
+    err.customError = {}
+    Object.keys(err.errors).forEach(item => {
+      err.customError[item] = err.errors[item].message
+    })
+  }
+  setError(ApiState.FIELD_MISSING, err)
+}
+
+const handleDuplidateFieldDB = (err) => {
+  console.log(err.keyValue)
+  if (err && err.keyValue) {
+    err.customError = {}
+    Object.keys(err.keyValue).forEach(item => {
+      err.customError[item] = err.keyValue[item]
+    })
+  }
+  console.log(err.customError)
+
+  setError(ApiState.DUPLIDATE_FIELD, err)
 }
 
 
@@ -34,6 +59,10 @@ const setError = (customError, err, t) => {
 module.exports = (err, req, res, next) => {
   let customeMessage = ApiState.INTERNAL_SERVER_ERROR
 
+  Object.entries(err).forEach(item => {
+    console.log(item[0], item[1])
+  })
+
   err.statusCode = err.statusCode || customeMessage.statusCode
   err.status = err.status || customeMessage.status
   err.name = err.name
@@ -44,6 +73,8 @@ module.exports = (err, req, res, next) => {
   if (err instanceof SyntaxError) setError(ApiState.SYNTAX_ERROR, err, 1)
   if (err instanceof ReferenceError) setError(ApiState.REFERENCE_ERROR, err, 2)
   if (err instanceof TypeError) setError(ApiState.TYPE_ERROR, err, 3)
+  if (err.code === 11000) handleDuplidateFieldDB(err)
+  if (err.name === 'ValidationError') error = handleValidationErrorDB(err)
   else
     err.message = isDev ?
       err.message || customeMessage.message
