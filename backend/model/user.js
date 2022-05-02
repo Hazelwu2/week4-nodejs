@@ -19,10 +19,10 @@ const userSchema = new Schema({
   createdAt: {
     type: Number,
     default: new Date().getTime(),
-  }
+  },
+
+
 }, { versionKey: false })
 
 const User = model('User', userSchema)
-module.exports = {
-  User
-}
+module.exports = User
