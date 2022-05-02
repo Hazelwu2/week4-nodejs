@@ -20,7 +20,7 @@ const userSchema = new Schema({
     type: Number,
     default: new Date().getTime(),
   }
-})
+}, { versionKey: false })
 
 const User = model('User', userSchema)
 module.exports = {
