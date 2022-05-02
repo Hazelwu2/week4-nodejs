@@ -56,7 +56,7 @@ export const UserWallPage: NextPage = () => {
     <>
       <Header />
       <div className="flex justify-center min-h-screen h-full pt-12 bg-c-bg">
-        <main className="max-w-[1200px] w-full flex justify-between">
+        <main className="max-w-[1200px] w-full flex justify-between px-6">
           <div className="w-3/4 pr-7">
             <FollowTitle
               src={user4}
@@ -66,7 +66,7 @@ export const UserWallPage: NextPage = () => {
             />
             <div className="flex mb-4">
               <Select className="mr-3" />
-              <Input onChange={() => {}} />
+              <Input onChange={() => { }} />
               <div>
                 <button className="bg-primary w-12 h-12 border-2 border-dark border-solid">
                   <SearchOutlined className="text-white text-xl flex items-center justify-center" />

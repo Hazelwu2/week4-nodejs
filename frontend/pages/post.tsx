@@ -55,13 +55,13 @@ export const PostPage: NextPage = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center min-h-screen h-full pt-4 px-3 pb-20 md:px-0 md:pt-12 bg-c-bg">
+      <div className="flex justify-center min-h-screen h-full pt-4 px-6 pb-20 md:px-6 md:pt-12 bg-c-bg">
         <main className="max-w-[1200px] w-full flex justify-between">
           <div className="w-full md:w-3/4 md:pr-7">
             <div className="flex flex-col md:flex-row mb-4">
               <Select className="mb-1.5 md:mb-0 md:mr-3" />
               <div className="flex w-full">
-                <Input onChange={() => {}} />
+                <Input onChange={() => { }} />
                 <div>
                   <button className="bg-primary w-12 h-12 border-2 border-dark border-solid">
                     <SearchOutlined className="text-white text-xl flex items-center justify-center" />

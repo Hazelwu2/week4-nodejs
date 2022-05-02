@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex justify-center items-center h-full min-h-screen bg-c-bg">
+      <main className="flex justify-center items-center h-full min-h-screen bg-c-bg px-6">
         <div className="flex max-w-[869px] max-h-[535px] min-w-[600px] border-2 border-solid border-dark py-[70px] px-12 bg-c-bg shadow-main">
           <div className="w-1/2 pr-6">
             <Image src={login} objectFit="cover"></Image>
