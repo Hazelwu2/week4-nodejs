@@ -23,7 +23,8 @@ const sendErrorProd = (err, res) => {
 
 const isDev = () => (process.env.NODE_ENV === 'development')
 const isProduction = () => (process.env.NODE_ENV === 'production')
-const setError = (customError, err) => {
+const setError = (customError, err, t) => {
+  console.log('t', t)
   err.message = customError.message
   err.status = customError.status
   err.statusCode = customError.statusCode
@@ -38,9 +39,11 @@ module.exports = (err, req, res, next) => {
   err.name = err.name
   err.stack = err.stack
 
-  if (err instanceof SyntaxError) setError(ApiState.SYNTAX_ERROR, err)
-  if (err instanceof ReferenceError) setError(ApiState.REFERENCE_ERROR, err)
-  if (err instanceof TypeError) setError(ApiState.TypeError, err)
+  console.log(ApiState.TYPE_ERROR)
+
+  if (err instanceof SyntaxError) setError(ApiState.SYNTAX_ERROR, err, 1)
+  if (err instanceof ReferenceError) setError(ApiState.REFERENCE_ERROR, err, 2)
+  if (err instanceof TypeError) setError(ApiState.TYPE_ERROR, err, 3)
   else
     err.message = isDev ?
       err.message || customeMessage.message
