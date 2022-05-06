@@ -5,6 +5,7 @@ const { errorHandle } = require('./utils/resHandle')
 const ApiState = require('./utils/apiState')
 const cors = require('cors')
 const corsOptions = require('./utils/cors')
+
 // Router
 const postRouter = require('./routes/post')
 const indexRouter = require('./routes/index')
