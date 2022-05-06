@@ -1,12 +1,13 @@
 {
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "dev": "NODE_ENV=development nodemon server.js"
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server.js"
   },
-  "name": "posts-mongoose-week2",
+  "name": "week4-nodejs-backend",
   "version": "1.0.0",
   "main": "app.js",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.15"
   },
   "author": "",
