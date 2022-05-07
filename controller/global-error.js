@@ -1,4 +1,11 @@
 const ApiState = require('../utils/apiState')
+const AppError = require('../utils/appError')
+
+// 處理 Cast Error
+const handleCastErrorDB = (err) => {
+  const message = `Invalid ${err.path}: ${err.value}`
+  return new AppError({ message })
+}
 
 const sendErrorDev = (err, res) => {
   // console 顯示錯誤訊息
@@ -32,6 +39,7 @@ const handleValidationErrorDB = (err) => {
   setError(ApiState.FIELD_MISSING, err)
 }
 
+// DB 欄位重複
 const handleDuplidateFieldDB = (err) => {
   console.log(err.keyValue)
   if (err && err.keyValue) {
@@ -44,7 +52,6 @@ const handleDuplidateFieldDB = (err) => {
 
   setError(ApiState.DUPLIDATE_FIELD, err)
 }
-
 
 const isDev = () => (process.env.NODE_ENV === 'development')
 const isProduction = () => (process.env.NODE_ENV === 'production')
@@ -68,12 +75,11 @@ module.exports = (err, req, res, next) => {
   err.name = err.name
   err.stack = err.stack
 
-  console.log(ApiState.TYPE_ERROR)
-
   if (err instanceof SyntaxError) setError(ApiState.SYNTAX_ERROR, err, 1)
   if (err instanceof ReferenceError) setError(ApiState.REFERENCE_ERROR, err, 2)
   if (err instanceof TypeError) setError(ApiState.TYPE_ERROR, err, 3)
   if (err.code === 11000) handleDuplidateFieldDB(err)
+  if (err.name === 'CastError') handleCastErrorDB(err)
   if (err.name === 'ValidationError') error = handleValidationErrorDB(err)
   else
     err.message = isDev ?
