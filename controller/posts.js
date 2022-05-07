@@ -1,6 +1,5 @@
 const Post = require('../model/posts')
-const axios = require('axios')
-const FormData = require('form-data');
+const { uploadImage } = require('../utils/upload')
 const {
   successHandle,
 } = require('../utils/resHandle.js')
@@ -33,35 +32,18 @@ const getAllPost = catchAsync(async (req, res, next) => {
       select: 'name avatar'
     })
     .sort(timeSort)
+
   successHandle({ res, data })
 })
-
-
-const uploadImage = async (file) => {
-  const formData = new FormData()
-  formData.append('image', file)
-  formData.append('type', 'base64')
-
-  return axios({
-    method: 'POST',
-    url: 'https://api.imgur.com/3/upload',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Authorization': `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
-    },
-    data: formData
-  })
-
-}
 
 const createPost = catchAsync(async (req, res, next) => {
   const { content, name, likes } = req.body
   if (!content || !name) return next(new AppError(ApiState.FIELD_MISSING))
+
   const encodeImage = req.file.buffer.toString('base64')
   const { data: imgUrl } = await uploadImage(encodeImage)
 
   // 上傳圖片
-  // const test = await uploadImage(fs.createReadStream(path.join(__dirname, './sleep.jpg')))
   const data = await Post.create({
     // TODO: 改為動態 user id
     user: '627011d72b9eee3731a2972c',
