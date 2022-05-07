@@ -13,6 +13,7 @@ router
 
 router
   .route('/:id')
+  .get(postController.getSinglePost)
   .patch(postController.updatePost)
   .delete(postController.deletePost)
 

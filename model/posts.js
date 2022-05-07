@@ -30,6 +30,7 @@ const postSchema = new Schema({
     default: 0
   },
 
+  comments: Number
 }, { versionKey: false })
 
 const Post = model('Post', postSchema)

@@ -36,6 +36,20 @@ const getAllPost = catchAsync(async (req, res, next) => {
   successHandle({ res, data })
 })
 
+const getSinglePost = catchAsync(async (req, res, next) => {
+  const { id } = req.params
+  if (!id) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const post = await Post.find({ _id: id }).populate({
+    path: 'user',
+    select: 'name avatar'
+  })
+
+  if (post.length === 0) return next(new AppError(ApiState.DATA_NOT_EXIST))
+
+  successHandle({ res, data: post })
+})
+
 const createPost = catchAsync(async (req, res, next) => {
   const { content, name, likes } = req.body
   if (!content || !name) return next(new AppError(ApiState.FIELD_MISSING))
@@ -110,6 +124,7 @@ module.exports = {
   getAllPost,
   createPost,
   deleteAllPost,
+  getSinglePost,
   deletePost,
-  updatePost,
+  updatePost
 }

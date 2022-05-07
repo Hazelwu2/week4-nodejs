@@ -7,11 +7,11 @@ const ApiState = require('./apiState')
 
 
 class AppError extends Error {
-  constructor(
-    { message,
-      status,
-      statusCode
-    }) {
+  constructor({
+    message,
+    status = 'fail',
+    statusCode = 500
+  }) {
     super(message)
 
     this.stack = ''
