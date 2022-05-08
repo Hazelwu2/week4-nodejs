@@ -7,6 +7,7 @@ const ApiState = require('../utils/apiState')
 const User = require('../model/user')
 // Package
 const jwt = require('jsonwebtoken');
+const bcryptjs = require('bcryptjs');
 
 // jwt.sign(payload, secret, options)
 const signToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -20,7 +21,12 @@ const createAndSendToken = (user, statusCode, res) => {
   successHandle({
     res,
     data: {
-      token
+      token,
+      user: {
+        name: user.name,
+        email: user.email,
+        _id: user._id
+      }
     }
   })
 }
@@ -46,8 +52,21 @@ const signup = catchAsync(async (req, res, next) => {
 
 // [Post] /login，登入
 const login = catchAsync(async (req, res, next) => {
-  // const { email, password } = req.body
+  const { email, password } = req.body
 
+  if (!email || !password) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const user = await User.findOne({ email }).select('+password');
+  console.log('user', user)
+
+  if (!user || !user.password) return next(new AppError(ApiState.LOGIN_FAIL))
+
+  // 比對密碼是否正確
+  const auth = await bcryptjs.compare(password, user?.password);
+
+  if (!auth) return next(new AppError(ApiState.LOGIN_FAIL))
+
+  createAndSendToken(user, 200, res)
 })
 
 // [Patch] /updatePassword，更改使用者密碼

@@ -39,6 +39,11 @@ const apiState = {
     message: '尚未登入，請先登入',
     statusCode: 401
   },
+  LOGIN_FAIL: {
+    status: 8,
+    message: 'Email或密碼錯誤',
+    statusCode: 401
+  },
   ROUTER_NOT_FOUND: {
     status: 9000,
     message: '找不到路由',
