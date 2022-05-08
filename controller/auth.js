@@ -91,17 +91,19 @@ const isAuth = catchAsync(async (req, res, next) => {
   if (!token) return next(new AppError(ApiState.NOT_LOGIN))
 
   // Verify Token
-  const decoded = await new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET), (err, payload) => {
-      if (err) {
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET)
+  /*
+    decoded { id: '62780ea9649620ec164b66ad', iat: 1652035816, exp: 1652640616 }
+  */
 
-      }
-    }
-  })
+  const currentUser = await User.findById(decoded.id)
+  req.user = currentUser
+
+  next()
 })
 
 const profile = catchAsync(async (req, res, next) => {
-  successHandle({ res })
+  successHandle({ res, data: req.user })
 })
 
 module.exports = {
