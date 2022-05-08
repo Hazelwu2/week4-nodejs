@@ -9,6 +9,7 @@ router
   .get(userController.getAllUser)
   .delete(userController.deleteAllUser)
 
+router.get('/profile', authController.isAuth, authController.profile)
 // 註冊
 router.post('/signup', authController.signup)
 // 登入

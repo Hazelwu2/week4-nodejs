@@ -34,6 +34,11 @@ const apiState = {
     message: '欄位重複',
     statusCode: 400
   },
+  NOT_LOGIN: {
+    status: 7,
+    message: '尚未登入，請先登入',
+    statusCode: 401
+  },
   ROUTER_NOT_FOUND: {
     status: 9000,
     message: '找不到路由',
