@@ -80,7 +80,7 @@ module.exports = (err, req, res, next) => {
   if (err instanceof TypeError) setError(ApiState.TYPE_ERROR, err, 3)
   if (err.code === 11000) handleDuplidateFieldDB(err)
   if (err.name === 'CastError') handleCastErrorDB(err)
-  if (err.name === 'ValidationError') error = handleValidationErrorDB(err)
+  if (err.name === 'ValidationError') handleValidationErrorDB(err)
   else
     err.message = isDev ?
       err.message || customeMessage.message
