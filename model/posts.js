@@ -17,11 +17,11 @@ const postSchema = new Schema({
     type: String,
     default: ""
   },
+
   // 建立時間，轉為 Timestamp 以方便前端好處理
   createdAt: {
     type: Number,
     default: new Date().getTime(),
-    select: false
   },
 
   // 按讚數
