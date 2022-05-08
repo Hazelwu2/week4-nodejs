@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose')
 const validator = require('validator')
+const bcrypt = require('bcryptjs');
+
 
 const userSchema = new Schema({
   name: {
@@ -21,8 +23,35 @@ const userSchema = new Schema({
     default: new Date().getTime(),
   },
 
+  password: {
+    type: String,
+    required: [true, '密碼為必填'],
+    trim: true,
+    minlength: 8,
+    select: false
+  },
+
+  passwordConfirm: {
+    type: String,
+    required: [true, '請重新輸入你的密碼'],
+    validate: {
+      validator(el) {
+        return el === this.password
+      },
+      message: '必須和密碼欄位相同'
+    }
+  }
+
 
 }, { versionKey: false })
+
+userSchema.pre('save', async function (next) {
+  // 加密密碼
+  this.password = await bcrypt.hash(this.password, 12)
+
+  this.passwordConfirm = undefined
+  next()
+})
 
 const User = model('User', userSchema)
 module.exports = User
