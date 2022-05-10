@@ -71,12 +71,25 @@ const login = catchAsync(async (req, res, next) => {
 
 // [Patch] /updatePassword，更改使用者密碼
 const updatePassword = catchAsync(async (req, res, next) => {
+  const { password, newPassword } = req.body
 
+  if (password !== confirmPassword) {
+    return next(new AppError({ statusCode: 400, message: '密碼不一致' }))
+  }
+
+  // 加密
+  newPassword = bcryptjs.hash(password, 12)
+
+  const user = await User.findByIdAndUpdate(req.user.id, {
+    password: newPassword
+  })
+
+  createAndSendToken(user, 200, res)
 })
 
 // [Patch] /updatePassword，更改使用者密碼
 const updateInfo = catchAsync(async (req, res, next) => {
-
+  successHandle({ res })
 })
 
 const isAuth = catchAsync(async (req, res, next) => {
@@ -103,7 +116,12 @@ const isAuth = catchAsync(async (req, res, next) => {
 })
 
 const profile = catchAsync(async (req, res, next) => {
-  successHandle({ res, data: req.user })
+  successHandle({ res, data: req.user, data })
+})
+
+const updateAvatar = catchAsync(async (req, res, next) => {
+  const data = await User.updateMany({ avatar: 'https://i.imgur.com/ebhxV0n.jpeg' })
+  successHandle({ res, data: req.user, data })
 })
 
 module.exports = {
@@ -112,5 +130,6 @@ module.exports = {
   updatePassword,
   updateInfo,
   isAuth,
-  profile
+  profile,
+  updateAvatar
 }
