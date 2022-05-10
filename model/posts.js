@@ -18,12 +18,6 @@ const postSchema = new Schema({
     default: ""
   },
 
-  // 建立時間，轉為 Timestamp 以方便前端好處理
-  createdAt: {
-    type: Number,
-    default: new Date().getTime(),
-  },
-
   // 按讚數
   likes: {
     type: Number,
@@ -31,7 +25,7 @@ const postSchema = new Schema({
   },
 
   comments: Number
-}, { versionKey: false })
+}, { versionKey: false, timestamps: true })
 
 const Post = model('Post', postSchema)
 
