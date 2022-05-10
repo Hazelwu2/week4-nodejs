@@ -51,8 +51,9 @@ const getSinglePost = catchAsync(async (req, res, next) => {
 })
 
 const createPost = catchAsync(async (req, res, next) => {
-  const { content, name, likes } = req.body
+  const { content, name, likes, user } = req.body
   if (!content || !name) return next(new AppError(ApiState.FIELD_MISSING))
+  if (!req.file) return next(new AppError(ApiState.FIELD_MISSING))
 
   const encodeImage = req.file.buffer.toString('base64')
   const { data: imgUrl } = await uploadImage(encodeImage)
@@ -60,7 +61,7 @@ const createPost = catchAsync(async (req, res, next) => {
   // 上傳圖片
   const data = await Post.create({
     // TODO: 改為動態 user id
-    user: '627011d72b9eee3731a2972c',
+    user,
     content,
     image: imgUrl?.data?.link,
     name,
