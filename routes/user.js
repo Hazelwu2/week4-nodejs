@@ -9,8 +9,6 @@ router
   .delete(userController.deleteAllUser)
 
 router.get('/profile', authController.isAuth, authController.profile)
-// 測試使用
-router.patch('/update-avatar', authController.updateAvatar)
 // 註冊
 router.post('/signup', authController.signup)
 // 登入
