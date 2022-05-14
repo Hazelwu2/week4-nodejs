@@ -20,6 +20,8 @@
 - [後端Repo](https://github.com/Hazelwu2/week4-nodejs.git)
 - [前端 React + Typescript + Axios](https://github.com/Hazelwu2/week4-nodejs-frontend.git)
 - [線上Demo](https://week4-nodejs-frontend.vercel.app/)
+- [Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/wee4-all-api.json)
+- [Postman 匯入環境變數](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/Heroku-week4.postman_environment.json)
 
 ### 等級表
 #### LV1：整合 user model，只做後端 API
