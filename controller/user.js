@@ -13,7 +13,6 @@ const deleteAllUser = catchAsync(async (req, res, next) => {
 })
 
 module.exports = {
-  createUser,
   getAllUser,
   deleteAllUser
 }
