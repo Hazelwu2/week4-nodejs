@@ -16,14 +16,16 @@
 </div>
 
 ## 🛖 About This Project
-第四週六角學院 Nodejs 主線任務，打造全端 (Full Stack) 網站架構，前後端分離開發。
+第四週、第五週六角學院 Nodejs 主線任務，打造全端 (Full Stack) 網站架構，前後端分離開發。
 - [後端Repo](https://github.com/Hazelwu2/week4-nodejs.git)
 - [前端 React + Typescript + Axios](https://github.com/Hazelwu2/week4-nodejs-frontend.git)
 - [線上Demo](https://week4-nodejs-frontend.vercel.app/)
 - [Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/wee4-all-api.json)
 - [Postman 匯入環境變數](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/Heroku-week4.postman_environment.json)
 
-### 等級表
+
+### Week4
+等級表
 #### LV1：整合 user model，只做後端 API
   - 設計[這頁](https://xd.adobe.com/view/c0763dbe-fc15-42e8-be0b-8956ed03e675-9525/screen/5b6bb2a0-f0f3-4b39-841f-8cf3a0ed9707)的 GET API
   - 設計[這頁](https://xd.adobe.com/view/c0763dbe-fc15-42e8-be0b-8956ed03e675-9525/screen/dfc7891e-63fd-4141-989a-8776ee7ea9f0) POST API
@@ -36,6 +38,12 @@
 
 #### LV3：前後端都做 + 試著自己接 imgur API
   - 先上傳成功回傳圖片網址後，再送出貼文
+
+### Week5
+- 請設計一個 middleware，讓 controller 程式碼裡面沒有 try catch
+- 請透過環境變數執行指令加上 dev、production 的客製化回饋
+- 承第二點，請觀看此張圖，確保你的後端語言有客製化各種錯誤狀態，包含 NPM 的錯誤訊息客製化
+- 請透過 node.js uncaughtException、unhandledRejection 來捕捉預期外的錯誤
 
 
 * 上傳 [GitHub](https://github.com/Hazelwu2/week4-nodejs.git)
