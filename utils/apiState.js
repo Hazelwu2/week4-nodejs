@@ -61,7 +61,7 @@ const apiState = {
   },
   INTERNAL_SERVER_ERROR: {
     status: 500,
-    message: '發生錯誤，請稍後再試',
+    message: '發生伺服器錯誤，請稍後再試',
     statusCode: 500
   },
   SYNTAX_ERROR: {

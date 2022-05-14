@@ -20,11 +20,10 @@ const sendErrorDev = (err, res) => {
 
 }
 
-const sendErrorProd = (err, res) => {
+const sendErrorProd = (err = ApiState.INTERNAL_SERVER_ERROR, res) => {
   res.status(err.statusCode).json({
     status: err.status,
-    message: err.message,
-    error: err.customError,
+    message: err.message
   })
 }
 
@@ -48,8 +47,6 @@ const handleDuplidateFieldDB = (err) => {
       err.customError[item] = err.keyValue[item]
     })
   }
-  console.log(err.customError)
-
   setError(ApiState.DUPLIDATE_FIELD, err)
 }
 
