@@ -86,6 +86,7 @@ const deleteAllPost = catchAsync(async (req, res, next) => {
 
 const deletePost = catchAsync(async (req, res, next) => {
   const _id = req.params.id
+  if (!id) return next(new AppError(ApiState.FIELD_MISSING))
 
   const data = await Post.findByIdAndDelete({ _id: _id })
 
