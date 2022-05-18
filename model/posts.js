@@ -4,7 +4,8 @@ const postSchema = new Schema({
 
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: [true, 'user 為必填欄位']
   },
 
   // 內容
