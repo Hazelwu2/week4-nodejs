@@ -11,7 +11,7 @@ const postRouter = require('./routes/post')
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/user')
 // Controller
-const globalErrorHandler = require('./controller/global-error')
+const globalErrorHandler = require('./utils/global-error')
 const AppError = require('./utils/appError')
 
 app.use(morgan('dev'))
