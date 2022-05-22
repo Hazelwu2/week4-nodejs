@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const ApiState = require('../utils/apiState')
 const validator = require('validator')
+const { uploadImage } = require('../utils/upload')
 // Model
 const User = require('../model/user')
 // Package
@@ -84,8 +85,33 @@ const getProfile = catchAsync(async (req, res, next) => {
 })
 
 // [Patch] /users/profile，更新個人資料
+// UI: https://xd.adobe.com/view/c0763dbe-fc15-42e8-be0b-8956ed03e675-9525/screen/112f9990-41f0-4c0d-8704-67279a52a49c/
 const updateProfile = catchAsync(async (req, res, next) => {
-  successHandle({ res })
+
+  const { name, sex } = req.body
+  if (!name || !sex) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const userData = {}
+  userData.name = name
+  userData.sex = sex
+
+  if (req.file) {
+    const encodeImage = req.file.buffer.toString('base64')
+    const { data: imgUrl } = await uploadImage(encodeImage)
+    userData.avatar = imgUrl.data.link
+  }
+
+  const { _id } = req.user
+  const user = await User.findByIdAndUpdate(
+    _id,
+    userData
+  )
+
+  successHandle({
+    res,
+    message: '修改成功',
+    data: user
+  })
 })
 
 
