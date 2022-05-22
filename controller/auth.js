@@ -3,35 +3,15 @@ const { successHandle } = require('../utils/resHandle.js')
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const ApiState = require('../utils/apiState')
+const validator = require('validator')
+const { uploadImage } = require('../utils/upload')
 // Model
 const User = require('../model/user')
 // Package
-const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const { generatorTokenAndSend, isAuth } = require('../service/auth')
 
-// jwt.sign(payload, secret, options)
-const signToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, {
-  expiresIn: process.env.JWT_EXPIRES_DAY
-})
-
-// 產生 Token 並回傳
-const createAndSendToken = (user, statusCode, res) => {
-  const token = signToken(user._id)
-
-  successHandle({
-    res,
-    data: {
-      token,
-      user: {
-        name: user.name,
-        email: user.email,
-        _id: user._id
-      }
-    }
-  })
-}
-
-// [Post] /signup，註冊
+// [Post] users/signup，註冊
 const signup = catchAsync(async (req, res, next) => {
   let { name, email, password, passwordConfirm } = req.body
 
@@ -39,7 +19,17 @@ const signup = catchAsync(async (req, res, next) => {
     return next(new AppError(ApiState.FIELD_MISSING))
   }
 
+  // 檢查密碼字數
+  if (!validator.isLength(password, { min: 8 })) {
+    return next(new AppError({ statusCode: 400, message: '密碼字數低於 8 碼' }))
+  }
 
+  // 檢查 Email
+  if (!validator.isEmail(email)) {
+    return next(new AppError({ statusCode: 400, message: 'Email 格式不正確' }))
+  }
+
+  // passwordConfirm 在 model/user 驗證
   const newUser = await User.create({
     name,
     email,
@@ -47,17 +37,16 @@ const signup = catchAsync(async (req, res, next) => {
     passwordConfirm,
   })
 
-  createAndSendToken(newUser, 201, res)
+  generatorTokenAndSend(newUser, 201, res)
 })
 
-// [Post] /login，登入
-const login = catchAsync(async (req, res, next) => {
+// [Post] users/sign_in，登入
+const signin = catchAsync(async (req, res, next) => {
   const { email, password } = req.body
 
   if (!email || !password) return next(new AppError(ApiState.FIELD_MISSING))
 
   const user = await User.findOne({ email }).select('+password');
-  console.log('user', user)
 
   if (!user || !user.password) return next(new AppError(ApiState.LOGIN_FAIL))
 
@@ -66,70 +55,71 @@ const login = catchAsync(async (req, res, next) => {
 
   if (!auth) return next(new AppError(ApiState.LOGIN_FAIL))
 
-  createAndSendToken(user, 200, res)
+  generatorTokenAndSend(user, 200, res)
 })
 
-// [Patch] /updatePassword，更改使用者密碼
+// [Patch] /users/updatePassword，重設密碼
 const updatePassword = catchAsync(async (req, res, next) => {
-  const { password, newPassword } = req.body
+  const { password, confirmPassword } = req.body
+
+  // 驗證參數
+  if (!password || !confirmPassword) return next(new AppError(ApiState.FIELD_MISSING))
 
   if (password !== confirmPassword) {
     return next(new AppError({ statusCode: 400, message: '密碼不一致' }))
   }
 
   // 加密
-  newPassword = bcryptjs.hash(password, 12)
+  newPassword = await bcryptjs.hash(password, 12)
 
   const user = await User.findByIdAndUpdate(req.user.id, {
     password: newPassword
   })
 
-  createAndSendToken(user, 200, res)
+  generatorTokenAndSend(user, 200, res)
 })
 
-// [Patch] /updatePassword，更改使用者密碼
-const updateInfo = catchAsync(async (req, res, next) => {
-  successHandle({ res })
+// [GET] /users/profile，取得個人資料
+const getProfile = catchAsync(async (req, res, next) => {
+  successHandle({ res, data: req.user })
 })
 
-const isAuth = catchAsync(async (req, res, next) => {
-  let token
-  const { authorization } = req.headers
+// [Patch] /users/profile，更新個人資料
+// UI: https://xd.adobe.com/view/c0763dbe-fc15-42e8-be0b-8956ed03e675-9525/screen/112f9990-41f0-4c0d-8704-67279a52a49c/
+const updateProfile = catchAsync(async (req, res, next) => {
 
-  if (authorization && authorization.startsWith('Bearer')) {
-    token = authorization.split(' ')[1]
+  const { name, sex } = req.body
+  if (!name || !sex) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const userData = {}
+  userData.name = name
+  userData.sex = sex
+
+  if (req.file) {
+    const encodeImage = req.file.buffer.toString('base64')
+    const { data: imgUrl } = await uploadImage(encodeImage)
+    userData.avatar = imgUrl.data.link
   }
-  console.log('token', token)
 
-  if (!token) return next(new AppError(ApiState.NOT_LOGIN))
+  const { _id } = req.user
+  const user = await User.findByIdAndUpdate(
+    _id,
+    userData
+  )
 
-  // Verify Token
-  const decoded = await jwt.verify(token, process.env.JWT_SECRET)
-  /*
-    decoded { id: '62780ea9649620ec164b66ad', iat: 1652035816, exp: 1652640616 }
-  */
-
-  const currentUser = await User.findById(decoded.id)
-  req.user = currentUser
-
-  next()
+  successHandle({
+    res,
+    message: '修改成功',
+    data: user
+  })
 })
 
-const profile = catchAsync(async (req, res, next) => {
-  successHandle({ res, data: req.user, data })
-})
-
-const updateAvatar = catchAsync(async (req, res, next) => {
-  const data = await User.updateMany({ avatar: 'https://i.imgur.com/ebhxV0n.jpeg' })
-  successHandle({ res, data: req.user, data })
-})
 
 module.exports = {
   signup,
-  login,
+  signin,
   updatePassword,
-  updateInfo,
+  updateProfile,
   isAuth,
-  profile,
-  updateAvatar
+  getProfile,
 }

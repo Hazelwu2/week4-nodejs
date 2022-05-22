@@ -1,7 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
-const { errorHandle } = require('./utils/resHandle')
 const ApiState = require('./utils/apiState')
 const cors = require('cors')
 const corsOptions = require('./utils/cors')
@@ -19,9 +18,9 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 // Router
-app.use('/api', indexRouter)
-app.use('/api/posts', postRouter)
-app.use('/api/users', userRouter)
+app.use('/', indexRouter)
+app.use('/posts', postRouter)
+app.use('/users', userRouter)
 
 // 無此路由
 app.use('*', (req, res, next) => {
