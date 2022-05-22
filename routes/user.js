@@ -25,6 +25,9 @@ router.post('/sign_up', authController.signup)
 // 登入
 router.post('/sign_in', authController.signin)
 // 重設密碼
-router.patch('/updatePassword', isAuth, authController.updatePassword)
+router.patch('/updatePassword',
+  isAuth,
+  authController.updatePassword)
+
 
 module.exports = router

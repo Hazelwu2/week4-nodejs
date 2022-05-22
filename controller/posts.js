@@ -145,7 +145,7 @@ const likeSinglePost = catchAsync(async (req, res, next) => {
   })
 })
 
-// 貼文取消讚 [delete] /:id/likes
+// 貼文取消讚 [delete] /api/posts/:id/likes
 const noLikeSinglePost = catchAsync(async (req, res, next) => {
   const { id } = req.params
   if (!id) return next(new AppError(ApiState.FIELD_MISSING))
@@ -168,6 +168,23 @@ const noLikeSinglePost = catchAsync(async (req, res, next) => {
   })
 })
 
+// 取得個人貼文列表 [GET] /api/users/:id
+const getMyPost = catchAsync(async (req, res, next) => {
+  const { id } = req.params
+  if (!id) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const myPosts = await Post.find({ user: id })
+  if (!myPosts) return next(new AppError(ApiState.DATA_NOT_EXIST))
+
+  successHandle({
+    res,
+    data: {
+      posts: myPosts,
+      results: myPosts.length
+    }
+  })
+})
+
 module.exports = {
   getAllPost,
   createPost,
@@ -176,5 +193,6 @@ module.exports = {
   deletePost,
   updatePost,
   likeSinglePost,
-  noLikeSinglePost
+  noLikeSinglePost,
+  getMyPost
 }
