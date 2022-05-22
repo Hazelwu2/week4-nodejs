@@ -3,20 +3,23 @@ const router = express.Router()
 const userController = require('../controller/user')
 const authController = require('../controller/auth')
 
+const { isAuth } = require('../service/auth.js')
+
 router
   .route('/')
   .get(userController.getAllUser)
   .delete(userController.deleteAllUser)
 
-router.get('/profile', authController.isAuth, authController.profile)
-// 註冊
-router.post('/signup', authController.signup)
-// 登入
-router.post('/login', authController.login)
-// 更改使用者密碼
-router.patch('/updateMyPassword', authController.updatePassword)
-// 更改使用者資料
-router.post('/updateInfo', authController.isAuth, authController.updateInfo)
+router
+  .route('/profile')
+  .get(isAuth, authController.getProfile) // 取得個人資料
+  .patch(isAuth, authController.updateProfile) // 更新個人資料
 
+// 註冊
+router.post('/sign_up', authController.signup)
+// 登入
+router.post('/sign_in', authController.signin)
+// 重設密碼
+router.patch('/updatePassword', authController.updatePassword)
 
 module.exports = router
