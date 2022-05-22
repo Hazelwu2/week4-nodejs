@@ -18,9 +18,10 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 // Router
-app.use('/', indexRouter)
-app.use('/posts', postRouter)
-app.use('/users', userRouter)
+app.use('/api', indexRouter)
+app.use('/api/posts', postRouter)
+app.use('/api/users', userRouter)
+
 
 // 無此路由
 app.use('*', (req, res, next) => {
