@@ -104,7 +104,8 @@ const updateProfile = catchAsync(async (req, res, next) => {
   const { _id } = req.user
   const user = await User.findByIdAndUpdate(
     _id,
-    userData
+    userData,
+    { runValidators: true, new: true }
   )
 
   successHandle({
