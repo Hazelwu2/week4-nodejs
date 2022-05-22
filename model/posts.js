@@ -20,10 +20,12 @@ const postSchema = new Schema({
   },
 
   // 按讚數
-  likes: {
-    type: Number,
-    default: 0
-  },
+  likes: [
+    {
+      type: Schema.ObjectId,
+      ref: 'User'
+    }
+  ],
 
   // 建立時間，轉為 Timestamp 以方便前端好處理
   createdAt: {
