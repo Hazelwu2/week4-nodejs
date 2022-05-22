@@ -78,17 +78,19 @@ const createPost = catchAsync(async (req, res, next) => {
   }
 })
 
+// 刪除全部 Post
 const deleteAllPost = catchAsync(async (req, res, next) => {
   await Post.deleteMany()
   const data = await Post.find({})
   successHandle({ res, data })
 })
 
+// 刪除單筆 Post
 const deletePost = catchAsync(async (req, res, next) => {
-  const _id = req.params.id
+  const { id } = req.params
   if (!id) return next(new AppError(ApiState.FIELD_MISSING))
 
-  const data = await Post.findByIdAndDelete({ _id: _id })
+  const data = await Post.findByIdAndDelete({ _id: id })
 
   if (!data) return next(new AppError(ApiState.DATA_NOT_EXIST))
 
