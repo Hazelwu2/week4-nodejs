@@ -122,11 +122,59 @@ const updatePost = catchAsync(async (req, res, next) => {
 
 })
 
+// 貼文按讚 [post] /:id/likes
+const likeSinglePost = catchAsync(async (req, res, next) => {
+  const { id } = req.params
+  if (!id) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const post = await Post.findOneAndUpdate(
+    { _id: id },
+    { $addToSet: { likes: req.user.id } },
+    { new: true } // 回傳改過的資料
+  )
+
+  if (!post) return next(new AppError(ApiState.DATA_NOT_EXIST))
+
+  successHandle({
+    res,
+    data: {
+      likesCount: post.likes.length,
+      user_id: req.user.id,
+      post_id: id
+    }
+  })
+})
+
+// 貼文取消讚 [delete] /:id/likes
+const noLikeSinglePost = catchAsync(async (req, res, next) => {
+  const { id } = req.params
+  if (!id) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const post = await Post.findOneAndUpdate(
+    { _id: id },
+    { $pull: { likes: req.user.id } },
+    { new: true } // 回傳改過的資料
+  )
+
+  if (!post) return next(new AppError(ApiState.DATA_NOT_EXIST))
+
+  successHandle({
+    res,
+    data: {
+      likesCount: post.likes.length,
+      user_id: req.user.id,
+      post_id: id
+    }
+  })
+})
+
 module.exports = {
   getAllPost,
   createPost,
   deleteAllPost,
   getSinglePost,
   deletePost,
-  updatePost
+  updatePost,
+  likeSinglePost,
+  noLikeSinglePost
 }

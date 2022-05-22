@@ -18,4 +18,9 @@ router
   .patch(postController.updatePost)
   .delete(postController.deletePost)
 
+router
+  .route('/:id/likes')
+  .post(isAuth, postController.likeSinglePost) // 單篇貼文按讚
+  .delete(isAuth, postController.noLikeSinglePost) // 單篇貼文取消讚
+
 module.exports = router
