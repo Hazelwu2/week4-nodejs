@@ -80,7 +80,7 @@ const updatePassword = catchAsync(async (req, res, next) => {
 
 // [GET] /users/profile，取得個人資料
 const getProfile = catchAsync(async (req, res, next) => {
-  successHandle({ res, data: req.user, data })
+  successHandle({ res, data: req.user })
 })
 
 // [Patch] /users/profile，更新個人資料
