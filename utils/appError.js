@@ -18,6 +18,7 @@ class AppError extends Error {
     this.statusCode = statusCode // Http 狀態碼
     this.status = status // 客製化狀態碼
     this.message = message // 錯誤訊息
+    this.isOperational = true
     /*
     `Error.captureStackTrace` 函數
       [Systax] Error.captureStackTrace(targetObject[, constructorOpt])

@@ -17,6 +17,11 @@ const userSchema = new Schema({
   },
   avatar: String,
 
+  sex: {
+    type: String,
+    enum: ["male", "female"]
+  },
+
   // 建立時間，轉為 Timestamp 以方便前端好處理
   createdAt: {
     type: Number,
