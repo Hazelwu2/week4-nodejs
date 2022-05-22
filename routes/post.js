@@ -4,11 +4,12 @@ const router = express.Router()
 const postController = require('../controller/posts')
 // Utils
 const { uploadModule } = require('../utils/upload')
+const { isAuth } = require('../service/auth')
 
 router
   .route('/')
-  .get(postController.getAllPost)
-  .post(uploadModule.single('image'), postController.createPost)
+  .get(isAuth, postController.getAllPost)
+  .post(isAuth, uploadModule.single('image'), postController.createPost)
   .delete(postController.deleteAllPost)
 
 router
