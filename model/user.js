@@ -25,7 +25,11 @@ const userSchema = new Schema({
   // 建立時間，轉為 Timestamp 以方便前端好處理
   createdAt: {
     type: Number,
-    default: new Date().getTime(),
+  },
+
+  // 更新時間，轉為 Timestamp 以方便前端好處理
+  updatedAt: {
+    type: Number,
   },
 
   password: {
@@ -48,7 +52,12 @@ const userSchema = new Schema({
   }
 
 
-}, { versionKey: false })
+}, {
+  versionKey: false,
+  timestamps: {
+    currentTime: () => Date.now(),
+  },
+})
 
 userSchema.pre('save', async function (next) {
   // 加密密碼

@@ -25,6 +25,16 @@ const postSchema = new Schema({
     default: 0
   },
 
+  // 建立時間，轉為 Timestamp 以方便前端好處理
+  createdAt: {
+    type: Number,
+  },
+
+  // 更新時間，轉為 Timestamp 以方便前端好處理
+  updatedAt: {
+    type: Number,
+  },
+
   comments: Number
 }, { versionKey: false, timestamps: true })
 
