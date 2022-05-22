@@ -6,6 +6,10 @@ const postController = require('../controller/posts')
 const { uploadModule } = require('../utils/upload')
 const { isAuth } = require('../service/auth')
 
+// 取得按讚列表
+router
+  .get('/getLikeList', isAuth, postController.getLikeList)
+
 router
   .route('/')
   .get(isAuth, postController.getAllPost)
@@ -24,7 +28,9 @@ router
   .delete(isAuth, postController.noLikeSinglePost) // 單篇貼文取消讚
 
 // 取得個人貼文列表
-router.get('/user/:id', isAuth, postController.getMyPost)
+router
+  .get('/user/:id', isAuth, postController.getMyPost)
+
 
 
 module.exports = router

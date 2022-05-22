@@ -168,7 +168,7 @@ const noLikeSinglePost = catchAsync(async (req, res, next) => {
   })
 })
 
-// 取得個人貼文列表 [GET] /api/users/:id
+// 取得個人貼文列表 [GET] /api/posts/users/:id
 const getMyPost = catchAsync(async (req, res, next) => {
   const { id } = req.params
   if (!id) return next(new AppError(ApiState.FIELD_MISSING))
@@ -185,6 +185,21 @@ const getMyPost = catchAsync(async (req, res, next) => {
   })
 })
 
+// 取得按讚列表 [GET] /api/posts/getLikeList
+const getLikeList = catchAsync(async (req, res, next) => {
+  const likeList = await Post
+    .find({ likes: { $in: [req.user.id] } })
+    .populate({
+      path: 'user',
+      select: 'name _id email avatar'
+    });
+
+  successHandle({
+    res,
+    data: likeList
+  })
+})
+
 module.exports = {
   getAllPost,
   createPost,
@@ -194,5 +209,6 @@ module.exports = {
   updatePost,
   likeSinglePost,
   noLikeSinglePost,
-  getMyPost
+  getMyPost,
+  getLikeList
 }
