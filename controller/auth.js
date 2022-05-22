@@ -59,14 +59,17 @@ const signin = catchAsync(async (req, res, next) => {
 
 // [Patch] /users/updatePassword，重設密碼
 const updatePassword = catchAsync(async (req, res, next) => {
-  const { password, newPassword } = req.body
+  const { password, confirmPassword } = req.body
+
+  // 驗證參數
+  if (!password || !confirmPassword) return next(new AppError(ApiState.FIELD_MISSING))
 
   if (password !== confirmPassword) {
     return next(new AppError({ statusCode: 400, message: '密碼不一致' }))
   }
 
   // 加密
-  newPassword = bcryptjs.hash(password, 12)
+  newPassword = await bcryptjs.hash(password, 12)
 
   const user = await User.findByIdAndUpdate(req.user.id, {
     password: newPassword

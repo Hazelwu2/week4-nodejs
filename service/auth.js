@@ -43,7 +43,7 @@ const isAuth = catchAsync(async (req, res, next) => {
   if (!token) return next(new AppError(apiState.NOT_LOGIN))
 
   // Verify Token
-  const decoded = await jwt.verify(authorization, process.env.JWT_SECRET)
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET)
 
   const currentUser = await User.findById(decoded.id)
   req.user = currentUser
