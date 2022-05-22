@@ -1,14 +1,15 @@
 {
-	"id": "a90008ac-1f91-4f58-9332-40b0fb83f0e5",
-	"name": "[Heroku] [第二週作業] posts-mongoose-week2 遠端",
+	"id": "97e922d4-6865-4fd0-9da3-92f8ee559ac1",
+	"name": "[Heroku] Nodejs",
 	"values": [
 		{
 			"key": "api_url",
-			"value": "https://posts-mongoose-week2.herokuapp.com",
+			"value": "https://week4-nodejs.herokuapp.com",
+			"type": "default",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2022-04-25T14:31:30.937Z",
-	"_postman_exported_using": "Postman/9.16.1"
+	"_postman_exported_at": "2022-05-22T15:01:23.982Z",
+	"_postman_exported_using": "Postman/9.19.3"
 }
