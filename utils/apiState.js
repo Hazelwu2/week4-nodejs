@@ -44,6 +44,16 @@ const apiState = {
     message: 'Email或密碼錯誤',
     statusCode: 401
   },
+  MISS_FILE_FILE: {
+    status: 9,
+    message: '尚未上傳檔案',
+    statusCode: 400
+  },
+  FILE_FAIL: {
+    status: 9,
+    message: '上傳檔案發生錯誤',
+    statusCode: 400
+  },
   ROUTER_NOT_FOUND: {
     status: 9000,
     message: '找不到路由',
