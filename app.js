@@ -9,6 +9,7 @@ const corsOptions = require('./utils/cors')
 const postRouter = require('./routes/post')
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/user')
+const uploadRouter = require('./routes/upload')
 // Controller
 const globalErrorHandler = require('./utils/global-error')
 const AppError = require('./utils/appError')
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use('/api', indexRouter)
 app.use('/api/posts', postRouter)
 app.use('/api/users', userRouter)
+app.use('/api/upload', uploadRouter)
 
 
 // 無此路由
