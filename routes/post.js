@@ -3,7 +3,7 @@ const router = express.Router()
 // Controller
 const postController = require('../controller/posts')
 // Utils
-const { uploadModule } = require('../utils/upload')
+const { uploadModuleAssignField } = require('../service/upload')
 const { isAuth } = require('../service/auth')
 
 // 取得按讚列表
@@ -13,7 +13,7 @@ router
 router
   .route('/')
   .get(isAuth, postController.getAllPost)
-  .post(isAuth, uploadModule.single('image'), postController.createPost)
+  .post(isAuth, uploadModuleAssignField.single('image'), postController.createPost)
   .delete(postController.deleteAllPost)
 
 router

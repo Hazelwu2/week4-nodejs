@@ -4,7 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const ApiState = require('../utils/apiState')
 const validator = require('validator')
-const { uploadImage } = require('../utils/upload')
+const { uploadImage } = require('../service/upload')
 // Model
 const User = require('../model/user')
 // Package

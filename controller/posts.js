@@ -1,5 +1,5 @@
 const Post = require('../model/posts')
-const { uploadImage } = require('../utils/upload')
+const { uploadImage } = require('../service/upload')
 const {
   successHandle,
 } = require('../utils/resHandle.js')
@@ -140,7 +140,8 @@ const likeSinglePost = catchAsync(async (req, res, next) => {
     data: {
       likesCount: post.likes.length,
       user_id: req.user.id,
-      post_id: id
+      post_id: id,
+      post
     }
   })
 })

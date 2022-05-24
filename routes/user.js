@@ -4,7 +4,7 @@ const router = express.Router()
 const userController = require('../controller/user')
 const authController = require('../controller/auth')
 // Utils
-const { uploadModule } = require('../utils/upload')
+const { uploadModuleAssignField } = require('../service/upload')
 const { isAuth } = require('../service/auth.js')
 
 router
@@ -17,7 +17,7 @@ router
   .get(isAuth, authController.getProfile) // 取得個人資料
   .patch(
     isAuth,
-    uploadModule.single('avatar'),
+    uploadModuleAssignField.single('avatar'),
     authController.updateProfile) // 更新個人資料
 
 // 註冊
