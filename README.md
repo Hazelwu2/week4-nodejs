@@ -20,9 +20,9 @@
 - [後端Repo](https://github.com/Hazelwu2/week4-nodejs.git)
 - [前端 React + Typescript + Axios](https://github.com/Hazelwu2/week4-nodejs-frontend.git)
 - [線上Demo](https://week4-nodejs-frontend.vercel.app/)
-- [Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/wee4-all-api.json)
+- [Week6 Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/wee4-all-api.json)
 - [Postman 匯入環境變數](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/Heroku-week4.postman_environment.json)
-
+- [Week7 Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/week7.json)
 
 ### Week4
 等級表
@@ -59,6 +59,11 @@ API 規格
 * Edit：編輯 Post 貼文，[GET] /posts/{id}
 * Delete：刪除單篇 Post 貼文，[DELETE] /posts/{id}
 * Delete：刪除所有 Post 貼文，[DELETE] /posts/
+
+### Week7
+- 介接 Imgur 第三方圖床服務，教學文件
+- 設計一個 /upload 路由，來設計上傳圖片功能，後端得驗證是否符合 2mb 限制、格式支援 jpg、png
+- 需通過 isAuth 登入驗證 middleware 才可上傳
 
 
 ## 🔨 Built With
