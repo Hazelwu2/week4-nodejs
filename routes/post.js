@@ -27,9 +27,11 @@ router
   .post(isAuth, postController.likeSinglePost) // 單篇貼文按讚
   .delete(isAuth, postController.noLikeSinglePost) // 單篇貼文取消讚
 
-// 取得個人貼文列表
 router
+  // 取得個人貼文列表
   .get('/user/:id', isAuth, postController.getMyPost)
+  // 新增一則貼文的留言
+  .post('/:id/comment', isAuth, postController.createComment)
 
 
 

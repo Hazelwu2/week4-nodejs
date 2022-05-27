@@ -1,11 +1,15 @@
-const Post = require('../model/posts')
-const { uploadImage } = require('../service/upload')
+// Utils
 const {
   successHandle,
 } = require('../utils/resHandle.js')
 const ApiState = require('../utils/apiState')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError');
+// Model
+const Post = require('../model/posts')
+const Comment = require('../model/comments')
+// Service
+const { uploadImage } = require('../service/upload')
 
 /*
   "_id": "6270124640850c16bd444af3",
@@ -30,6 +34,10 @@ const getAllPost = catchAsync(async (req, res, next) => {
     .populate({
       path: 'user',
       select: 'name avatar'
+    })
+    .populate({
+      path: 'comments',
+      select: 'comment user'
     })
     .sort(timeSort)
 
@@ -201,6 +209,26 @@ const getLikeList = catchAsync(async (req, res, next) => {
   })
 })
 
+const createComment = catchAsync(async (req, res, next) => {
+  const { comment } = req.body
+  const post = req.params.id
+
+  if (!comment) return next(new AppError(ApiState.FIELD_MISSING))
+
+  const newComment = await Comment.create({
+    comment,
+    post,
+    user: req.user
+  })
+
+  successHandle({
+    res,
+    data: newComment
+  })
+})
+
+
+
 module.exports = {
   getAllPost,
   createPost,
@@ -211,5 +239,6 @@ module.exports = {
   likeSinglePost,
   noLikeSinglePost,
   getMyPost,
-  getLikeList
+  getLikeList,
+  createComment
 }
