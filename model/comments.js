@@ -22,7 +22,11 @@ const commentSchema = new Schema({
   createdAt: {
     type: Number,
   },
-})
+},
+  {
+    versionKey: false
+  }
+)
 
 // 使用到 Find 語法就會被觸發，像 await Comment.find()
 commentSchema.pre('/^find/', function (next) {
