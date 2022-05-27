@@ -37,8 +37,21 @@ const postSchema = new Schema({
     type: Number,
   },
 
-  comments: Number
-}, { versionKey: false, timestamps: true })
+},
+  {
+    versionKey: false,
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+)
+
+// 虛擬欄位
+postSchema.virtual('comments', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id'
+})
 
 const Post = model('Post', postSchema)
 
