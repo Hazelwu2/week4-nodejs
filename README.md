@@ -23,6 +23,8 @@
 - [Week6 Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/wee4-all-api.json)
 - [Postman 匯入環境變數](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/Heroku-week4.postman_environment.json)
 - [Week7 Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/week7.json)
+- [Week8 Postman 所有API](https://github.com/Hazelwu2/week4-nodejs-backend/blob/main/week8.json)
+
 
 ### Week4
 等級表
