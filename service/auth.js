@@ -25,6 +25,7 @@ const generatorTokenAndSend = (user, statusCode, res) => {
       user: {
         name: user.name,
         email: user.email,
+        id: user._id
       }
     }
   })

@@ -29,6 +29,9 @@ router.patch('/updatePassword',
   isAuth,
   authController.updatePassword)
 
+// 取得個人追蹤名單
+router.get('/following', isAuth, userController.getFollowing)
+
 // 追蹤朋友
 router.post('/:id/follow', isAuth, userController.followUser)
 // 取消追蹤朋友
