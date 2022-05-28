@@ -49,7 +49,35 @@ const userSchema = new Schema({
       },
       message: '必須和密碼欄位相同'
     }
-  }
+  },
+
+  // 被誰追蹤
+  followers: [
+    {
+      user: {
+        type: Schema.ObjectId,
+        ref: 'User',
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    }
+  ],
+
+  // 正在追蹤的朋友
+  following: [
+    {
+      user: {
+        type: Schema.ObjectId,
+        ref: 'User',
+        createdAt: {
+          type: Date,
+          default: Date.now
+        }
+      }
+    }
+  ]
 
 
 }, {

@@ -29,5 +29,10 @@ router.patch('/updatePassword',
   isAuth,
   authController.updatePassword)
 
+// 追蹤朋友
+router.post('/:id/follow', isAuth, userController.followUser)
+// 取消追蹤朋友
+router.delete('/:id/unfollow', isAuth, userController.unFollowUser)
+
 
 module.exports = router
