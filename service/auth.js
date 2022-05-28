@@ -6,7 +6,7 @@ const User = require('../model/user')
 const jwt = require('jsonwebtoken')
 const { successHandle } = require('../utils/resHandle')
 const AppError = require('../utils/appError')
-const apiState = require('../utils/apiState')
+const ApiState = require('../utils/apiState')
 
 // jwt.sign(payload, secret, options)
 const signToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -41,12 +41,14 @@ const isAuth = catchAsync(async (req, res, next) => {
     token = authorization.split(' ')[1]
   }
 
-  if (!token) return next(new AppError(apiState.NOT_LOGIN))
+  if (!token) return next(new AppError(ApiState.NOT_LOGIN))
 
   // Verify Token
   const decoded = await jwt.verify(token, process.env.JWT_SECRET)
 
   const currentUser = await User.findById(decoded.id)
+
+  if (!currentUser) return next(new AppError(ApiState.NOT_LOGIN))
   req.user = currentUser
 
   next()
