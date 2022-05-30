@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3005
 connectDB()
 
 app.listen(PORT, () => {
-  console.log(`Server is runnging at http://locahost:${PORT}`)
+  console.log(`Server is runnging at http://localhost:${PORT}`)
 })
 
 // Uncaught Excaption
