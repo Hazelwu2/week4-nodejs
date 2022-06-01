@@ -16,7 +16,7 @@
 </div>
 
 ## 🛖 About This Project
-第四週、第五週六角學院 Nodejs 主線任務，打造全端 (Full Stack) 網站架構，前後端分離開發。
+六角學院 Nodejs 主線任務，打造全端 (Full Stack) 網站架構，前後端分離開發。
 - [後端Repo](https://github.com/Hazelwu2/week4-nodejs.git)
 - [前端 React + Typescript + Axios](https://github.com/Hazelwu2/week4-nodejs-frontend.git)
 - [線上Demo](https://week4-nodejs-frontend.vercel.app/)
