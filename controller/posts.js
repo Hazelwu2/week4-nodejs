@@ -48,10 +48,15 @@ const getSinglePost = catchAsync(async (req, res, next) => {
   const { id } = req.params
   if (!id) return next(new AppError(ApiState.FIELD_MISSING))
 
-  const post = await Post.find({ _id: id }).populate({
-    path: 'user',
-    select: 'name avatar'
-  })
+  const post = await Post
+    .find({ _id: id })
+    .populate({
+      path: 'user',
+      select: 'name avatar'
+    })
+    .populate({
+      path: 'comments'
+    })
 
   if (post.length === 0) return next(new AppError(ApiState.DATA_NOT_EXIST))
 
@@ -201,7 +206,7 @@ const getLikeList = catchAsync(async (req, res, next) => {
     .populate({
       path: 'user',
       select: 'name _id email avatar'
-    });
+    })
 
   successHandle({
     res,
